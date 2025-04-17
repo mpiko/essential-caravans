@@ -9,7 +9,7 @@
             <xpath expr="//label[@for='name']" position="before">
                 <h1>
                     <label for="id" string = "SKU"/>
-                    <field name="id"/>
+                    <field name="id" widget="integer" options="{'format': 0}"/>
                 </h1>
             </xpath>
             <xpath expr="//div[@name='options']" position="inside">
