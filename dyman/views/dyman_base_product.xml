@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="dyman_base_product_tree" model="ir.ui.view">
+        <field name="name">dyman.base.product.tree</field>
+        <field name="model">dyman.base.product</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="id"/>
+                <field name="name"/>
+                <field name="status"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="dyman_base_product" model="ir.actions.act_window">
+        <field name="name">Base Product</field>
+        <field name="res_model">dyman.base.product</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

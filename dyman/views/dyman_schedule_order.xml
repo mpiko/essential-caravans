@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="dyman_schedule_order_kanban" model="ir.ui.view">
+        <field name="name">dyman.schedule.order.kanban</field>
+        <field name="model">dyman.order</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="schedule_date_online_id">
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="row">
+                            <div class="col-12">
+                                <strong>
+                                    <field name="name"/>
+                                </strong>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="dyman_schedule_order" model="ir.actions.act_window">
+        <field name="name">Schedule order</field>
+        <field name="res_model">dyman.schedule.order</field>
+        <field name="view_mode">kanban</field>
+    </record>
+</odoo>

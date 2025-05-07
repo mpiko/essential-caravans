@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="dyman_attribute_type" model="ir.actions.act_window">
+        <field name="name">Attribute Type</field>
+        <field name="res_model">dyman.attribute.type</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

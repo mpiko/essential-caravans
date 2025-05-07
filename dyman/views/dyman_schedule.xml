@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="dyman_schedule_form" model="ir.ui.view">
+        <field name="name">dyman.schedule.form</field>
+        <field name="model">dyman.schedule</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                </group>
+                <button name="action_view_orders" string="Schedule" type="object"/>
+            </form>
+        </field>
+    </record>
+
+    <record id="dyman_schedule" model="ir.actions.act_window">
+        <field name="name">Schedule</field>
+        <field name="res_model">dyman.schedule</field>
+        <field name="view_mode">form</field>
+    </record>
+
+</odoo>

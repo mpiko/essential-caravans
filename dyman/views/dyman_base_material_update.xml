@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="dyman_base_material_update_form" model="ir.ui.view">
+        <field name="name">dyman.base.material.update.form</field>
+        <field name="model">dyman.base.material.update</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="valid_component_ids" invisible="1"/>
+                    <field name="product_line_id"/>
+                    <field name="component_id"/>
+                    <field name="material_id"/>
+                    <field name="include_where"/>
+                    <field name="only_where" invisible="not include_where"/>
+                    <field name="not_where" invisible="not include_where"/>
+                    <field name="quantity"/> 
+                    <field name="base_material_update_log_ids"/>
+                    <field name="last_applied"/>                 
+                </group>
+                <group>
+                    <button special="cancel" string="Cancel"/>
+                    <button name="apply" string="Apply" type="object"/>                    
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="dyman_base_material_update_tree" model="ir.ui.view">
+        <field name="name">dyman.base.material.update.tree</field>
+        <field name="model">dyman.base.material.update</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="product_line_id"/>
+                <field name="component_id"/>
+                <field name="material_id"/>
+                <field name="include_where"/>
+                <field name="only_where"/>
+                <field name="not_where"/>
+                <field name="quantity"/>
+                <field name="last_applied"/>                  
+            </list>
+        </field>
+    </record>
+    
+    <record id="dyman_base_material_update" model="ir.actions.act_window">
+        <field name="name">Base Material Update</field>
+        <field name="res_model">dyman.base.material.update</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>        
