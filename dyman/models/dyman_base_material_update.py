@@ -2,9 +2,6 @@ from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 import datetime
 
-from odoo.odoo.api import ondelete
-
-
 class BaseMaterialUpdate(models.Model):
     _name = "dyman.base.material.update"
     _description = "Base product material update rule"
