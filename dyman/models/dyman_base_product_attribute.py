@@ -1,5 +1,5 @@
 from odoo import api, fields, models
-from odoo.odoo.api import ondelete
+
 
 
 class BaseProductAttribute(models.Model):
