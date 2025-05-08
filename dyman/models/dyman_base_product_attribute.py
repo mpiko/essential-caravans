@@ -1,7 +1,5 @@
 from odoo import api, fields, models
 
-
-
 class BaseProductAttribute(models.Model):
     _name = "dyman.base.product.attribute"
     _description = "The assignment of an attribute type and value pair to a base product"

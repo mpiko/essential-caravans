@@ -19,6 +19,6 @@ class ProductLineAttributeType(models.Model):
     @api.constrains('base', 'derived_from')
     def _check_base_derived(self):
         for record in self:
-            if record.base and record.derived_from:
-                raise ValidationError("Base attributes can not be derived")
+            if record.base and record.characteristic:
+                raise ValidationError("Base attributes can not be characteristics")
 
