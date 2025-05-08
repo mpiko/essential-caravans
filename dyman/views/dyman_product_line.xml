@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="dyman_product_line_form" model="ir.ui.view">
+        <field name="name">dyman.product.line.form</field>
+        <field name="model">dyman.product.line</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_update_base_products" string="Update Base Products" type="object"/>
+                    <button name="launch_update_base_materials" string="Update Base Materials" type="object"/>
+                    <button name="launch_update_base_characteristics" string="Update Base Characteristics" type="object"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="description"/>
+                        <field name="available_to_dealers"/>
+                    </group>
+                    <notebook>
+                        <page string="Attributes">
+                            <field name = "prodline_attrtype_ids">
+                                <list>
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="attribute_type_id"/>
+                                    <field name="prodline_attrtype_attrval_ids"/>
+                                    <field name="base"/>
+                                    <field name="required"/>
+                                    <field name="characteristic"/>
+                                </list>
+                                <form>
+                                    <group>
+                                        <field name="attribute_type_id"/>
+                                        <field name="base"/>
+                                        <field name="required"/>
+                                        <field name="characteristic"/>
+                                        <field name="prodline_attrtype_attrval_ids">
+                                            <list>
+                                                <field name="attribute_value_id"/>
+                                                <field name="price_rule"/>
+                                                <field name="filter_id"/>
+                                                <field name="available_to_dealers"/>
+                                                <field name="prodline_component_rule_ids"/>
+                                            </list>
+                                            <form>
+                                                <group>
+                                                    <field name="attribute_value_id"/>
+                                                    <field name="price_rule"/>
+                                                    <field name="price_trade" widget="monetary" invisible="price_rule != 'fixed'"/>
+                                                    <field name="price_retail" widget="monetary" invisible="price_rule != 'fixed'"/>
+                                                    <field name="filter_id"/>
+                                                    <field name="available_to_dealers"/>
+                                                    <label string="Not available to"
+                                                        for="dealer_restriction_ids"
+                                                        invisible="available_to_dealers != 'most'"/>
+                                                    <label string="Only available to"
+                                                        for="dealer_restriction_ids"
+                                                        invisible="available_to_dealers != 'selected'"/>
+                                                    <field name="dealer_restriction_ids" nolabel="1" widget="many2many_tags" invisible="available_to_dealers =='all'"/>
+                                                    <field name="prodline_component_rule_ids">
+                                                        <list>
+                                                            <field name="component_id"/>
+                                                            <field name="material_id"/>
+                                                            <field name="quantity_operation"/>
+                                                            <field name="quantity"/>
+                                                        </list>
+                                                        <form>
+                                                            <group>
+                                                                <field name="valid_component_ids" invisible="1"/>
+                                                                <field name="component_id"/>
+                                                                <field name="material_id"/>
+                                                                <field name="quantity_operation"/>
+                                                                <field name="quantity"/>                                                        
+                                                            </group>
+                                                        </form>
+                                                    </field>
+                                                </group>
+                                            </form>
+                                        </field>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Components">
+                            <field name = "prodline_component_category_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="include_on_spec_report"/>
+                                    <field name="component_ids"/>
+                                </list>
+                                <form>
+                                    <group>
+                                        <field name="name"/>
+                                        <field name="include_on_spec_report"/>
+                                        <field name="component_ids">
+                                            <list>
+                                                <field name="name"/>
+                                                <field name="include_on_spec_report"/>
+                                            </list>
+                                            <form>
+                                                <group>
+                                                    <field name="valid_operation_ids" invisible="1"/>
+                                                    <field name="component_id"/>
+                                                    <field name="operation_id" options="{'no_create': True}"/>
+                                                </group>
+                                                <notebook>
+                                                    <page string="Materials (parts)">
+                                                        <field name="material_ids">
+                                                            <list>
+                                                                <field name="material_id"/>
+                                                                <field name="filter_id"/>
+                                                            </list>
+                                                        </field>
+                                                    </page>
+                                                    <page string="Operations alerts (always)">
+                                                        <group>
+                                                            <field name="alert_always_operation_ids" widget="many2many_checkboxes"/>
+                                                        </group>
+                                                    </page>
+                                                    <page string="Operations alerts (when changed)">
+                                                        <group>
+                                                            <field name="alert_onchange_operation_ids" widget="many2many_checkboxes"/>
+                                                        </group>
+                                                    </page>                                                </notebook>
+                                            </form>
+                                        </field>
+                                    </group>
+                                </form>
+                            </field>                            
+                        </page>
+                        <page string="Operations">
+                            <field name = "prodline_operation_ids">
+                                <list>
+                                    <field name="operation_id"/>
+                                </list>
+                            </field>                            
+                        </page>
+                        <page string="Base Products">
+                            <group>
+                                <field name="base_product_filter" widget="radio" options="{'horizontal': true}" invisible="1"/>
+                                <field name="filtered_base_product_ids" invisible="1"/>
+                            </group>
+                            <field name = "base_product_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="status"/>
+                                    <field name="price_trade" widget="monetary"/>
+                                    <field name="price_retail" widget="monetary"/>
+                                    <field name="base_product_attribute_ids"/>
+                                    <field name="base_material_ids"/>
+                                </list>
+                                <form>
+                                    <group>
+                                        <field name="name"/>
+                                        <field name="status"/>
+                                        <field name="price_trade" class="oe_inline" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                        <field name="price_retail" class="oe_inline" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                        <field name="base_product_attribute_ids">
+                                            <list>
+                                                <field name="attribute_type_id"/>
+                                                <field name="attribute_value_id"/>
+                                                <field name="base"/>
+                                                <field name="characteristic"/>
+                                            </list>
+                                        </field>
+                                        <field name="base_material_ids">
+                                            <list>
+                                                <field name="component_id"/>
+                                                <field name="material_id"/>
+                                                <field name="quantity"/>
+                                            </list>
+                                            <form>
+                                                <field name="component_id"/>
+                                                <field name="material_id"/>
+                                                <field name="quantity"/>                                           
+                                            </form>
+                                        </field>
+                                    </group>
+                                </form>
+                            </field>                            
+                        </page>
+                        <page string="Product Filters">
+                            <field name = "prodline_filter_ids">
+                                <list>
+                                    <field name="name"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Base material updates">
+                            <field name="base_material_update_ids"/>
+                        </page>
+                        <page string="Warehouses">
+                            <field name="prodline_warehouse_ids">
+                                <list>
+                                    <field name="name"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Manufacturing processes">
+                            <field name="process_ids">
+                                <list>
+                                    <field name="name"/>
+                                </list>
+                                <form>
+                                    <group>
+                                        <field name="name"/>
+                                        <field name="order_id"/>
+                                        <field name="valid_filter_ids" invisible="1"/>
+                                        <field name="apply_to_filter_id"/>
+                                        <field name="valid_warehouse_ids" invisible="1"/>
+                                        <field name="apply_to_warehouse_id"/>
+                                        <field name="process_operation_ids">
+                                            <list>
+                                                <field name="name"/>
+                                                <field name="component_process_operation_ids"/>
+                                                <field name="prerequisite_process_operation_ids" widget="many2many_tags"/>
+                                            </list>
+                                            <form>
+                                                <group>
+                                                    <field name="operation_id"/>
+                                                    <field name="valid_filter_ids" invisible = "1"/>
+                                                    <field name="exclude_filter_id"/>
+                                                </group>
+                                                <notebook>
+                                                    <page string = "Components">
+                                                        <field name="component_process_operation_ids"/>
+                                                    </page>
+                                                    <page string = "Pre-requisites">
+                                                        <field name="prerequisite_process_operation_ids"/>
+                                                    </page>
+                                                </notebook>
+                                            </form>
+                                        </field>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Dealer restrictions" invisible="available_to_dealers == 'all'">
+                            <div>
+                                <label string="Not available to"
+                                    for="dealer_restriction_ids"
+                                    invisible="available_to_dealers != 'most'"/>
+                                <label string="Only available to"
+                                    for="dealer_restriction_ids"
+                                    invisible="available_to_dealers != 'selected'"/>
+                            </div>
+                            <field name="dealer_restriction_ids" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="dyman_product_line" model="ir.actions.act_window">
+        <field name="name">Product Line</field>
+        <field name="res_model">dyman.product.line</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

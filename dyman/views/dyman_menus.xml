@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="dyman_root" name="Dynamic Manufacturing" action="dyman_product_line" web_icon="dyman,static/description/icon.png">
+        <menuitem id="dyman_menu_orders" name="Orders" action="dyman_order"/>
+        <menuitem id="dyman_menu_dealers" name="Dealers" action="dyman_dealer"/>
+        <menuitem id="dyman_menu_schedule" name="Schedule" action="dyman_schedule"/>
+        <menuitem id="dyman_menu_data" name = "Data">
+            <menuitem id="dyman_menu_attributes" name="Attributes">
+                <menuitem id="dyman_menu_attribute_types" name="Types" action="dyman_attribute_type"/>
+                <menuitem id="dyman_menu_attribute_values" name="Values" action="dyman_attribute_value"/>
+            </menuitem>
+            <menuitem id="dyman_menu_base" name="Base Products and Materials">            
+                <menuitem id="dyman_menu_base_products" name="Base Products" action="dyman_base_product"/>
+                <menuitem id="dyman_menu_base_materials" name="Base Materials" action="dyman_base_material"/>    
+                <menuitem id="dyman_menu_base_material_updates" name="Base Material Updates" action="dyman_base_material_update"/>
+                <menuitem id="dyman_menu_base_characteristic_updates" name="Base Characteristic Updates" action="dyman_base_characteristic_update"/>
+            </menuitem>        
+            <menuitem id="dyman_menu_components" name="Components" action="dyman_component"/>
+            <menuitem id="dyman_menu_component_categories" name="Component categories" action="dyman_component_category"/>
+            <menuitem id="dyman_menu_operations" name="Operations" action="dyman_operation"/>
+            <menuitem id="dyman_menu_order_materials" name="Order Materials" action="dyman_order_material"/>
+            <menuitem id="dyman_menu_prodline_component_rule" name="Component Rules" action="dyman_prodline_component_rule"/>
+            <menuitem id="dyman_menu_prodline_filter" name="Filters" action="dyman_prodline_filter"/>
+        </menuitem>
+    </menuitem>
+</odoo>

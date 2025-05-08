@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="dyman_order_form" model="ir.ui.view">
+        <field name="name">dyman.order.form</field>
+        <field name="model">dyman.order</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="update_materials" string="Update Materials" type="object"/>
+                    <button name="manufacture" string="Manufacture" type="object"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="dealer_id"/>
+                        <field name="product_line_id"
+                            readonly = "order_attribute_ids"/>
+                        <field name="order_type"/>
+                        <field name="customer_name" invisible="order_type == 'stock'"/>
+                        <field name="customer_address" invisible="order_type == 'stock'"/>
+                        <field name="customer_phone" invisible="order_type == 'stock'"/>
+                        <field name="customer_email" invisible="order_type == 'stock'"/>
+                        <field name="order_status"/>
+                        <field name="build_month"/>
+                        <field name="available_base_product_ids"/>
+                    </group>
+                    <notebook>
+                        <page string="Attributes">
+                            <field name="valid_attrtype_ids" invisible = "1"/>
+                            <field name = "order_attribute_ids"
+                                readonly = "not product_line_id">
+                                <list>
+                                    <field name="attribute_type_id"/>
+                                    <field name="attribute_value_id"/>
+                                </list>
+                                <form>
+                                    <group>
+                                        <field name="order_id"/>
+                                        <field name="attribute_type_id"
+                                            readonly = "attribute_value_id"/>
+                                        <field name="valid_attrval_ids" invisible = "1"/>
+                                        <field name="attribute_value_id"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Materials">
+                            <field name="order_material_ids">
+                                <list>
+                                    <field name="operation_id"/>
+                                    <field name="component_id"/>
+                                    <field name="material_id"/>
+                                    <field name="quantity"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Manufacturing">
+                            <group>
+                                <field name="valid_warehouse_ids" invisible = "1"/>
+                                <field name="warehouse_id"/> -->
+                                <field name="valid_process_ids" invisible = "1"/>
+                                <field name="source_process_id"/>
+                                <field name="build_process_id"/>
+                                <field name="schedule_date_online"/>
+                                <field name="process_operation_ids">
+                                    <list>
+                                        <field name="name"/>
+                                        <field name="status"/>
+                                    </list>
+                                </field>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="dyman_order_list" model="ir.ui.view">
+        <field name="name">dyman.order.list</field>
+        <field name="model">dyman.order</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="dealer_id" optional="show"/>
+                <field name="warehouse_id" optional="show"/>
+                <field name="stock_picking_type_id" optional="hide"/>
+                <field name="wip_location_id" optional="hide"/>
+                <field name="source_process_id" optional="hide"/>
+                <field name="build_process_id" optional="hide"/>
+                <field name="schedule_date_online" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="dyman_order_search" model="ir.ui.view">
+        <field name="name">dyman.order.search</field>
+        <field name="model">dyman.order</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="dealer_id"/>
+                <field name="warehouse_id"/>
+                <filter name="somerton" string="Somerton" domain="[('warehouse_id', '=', 'Somerton')]"/>
+                <filter name="pakenham" string="Pakenham" domain="[('warehouse_id', '=', 'Pakenham')]"/>
+                <filter name="group_by_dealer_id" context="{'group_by': 'dealer_id'}"/>
+                <filter name="group_by_warehouse_id" context="{'group_by': 'warehouse_id'}"/>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="dyman_order" model="ir.actions.act_window">
+        <field name="name">Order</field>
+        <field name="res_model">dyman.order</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>
