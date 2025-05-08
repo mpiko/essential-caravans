@@ -136,7 +136,7 @@
                         </page>
                         <page string="Base Products">
                             <group>
-                                <field name="base_product_filter" widget="radio" options="{'horizontal': true}"/>
+                                <field name="base_product_filter" widget="radio" options="{'horizontal': true}" invisible="1"/>
                                 <field name="filtered_base_product_ids" invisible="1"/>
                             </group>
                             <field name = "base_product_ids">

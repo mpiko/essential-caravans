@@ -1,3 +1,7 @@
+import json
+
+from xlwt.ExcelFormulaLexer import false_pattern
+
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
@@ -14,7 +18,7 @@ class ProductLine(models.Model):
     prodline_operation_ids = fields.One2many("dyman.prodline.operation", "product_line_id", string="Operations")
     base_product_ids = fields.One2many("dyman.base.product", "product_line_id", string="Base Products", domain="[('id', 'in', filtered_base_product_ids)]")
     base_product_filter = fields.Selection(selection=[('all', 'All'),('new', 'New'),('active', 'Active'),('invalid', 'Invalid'), ('removed', 'Removed')], string="Product status", default="active", store=False)
-    filtered_base_product_ids = fields.One2many("dyman.base.product", "product_line_id", string="Filtered base products", compute="_filter_base_products", store=False)
+    filtered_base_product_ids = fields.One2many("dyman.base.product", "product_line_id", domain="[('status', '=', self.base_product_filter)]")
     prodline_filter_ids = fields.One2many("dyman.prodline.filter", "product_line_id", string="Filters")
     base_material_update_ids = fields.One2many("dyman.base.material.update", "product_line_id", string="Base material updates")
     prodline_warehouse_ids = fields.One2many("dyman.prodline.warehouse", "product_line_id", string="Warehouses")
@@ -26,13 +30,14 @@ class ProductLine(models.Model):
     def _filter_base_products(self):
         for product_line in self:
             base_product_list = []
-            for base_product in product_line.base_product_ids:
-                if (product_line.base_product_filter == 'all') or (base_product.status == product_line.base_product_filter):
+            for base_product in self.env['dyman.base.product'].search([('product_line_id', '=', product_line._origin.id)]):
+                if (product_line.base_product_filter == 'all') or (
+                        base_product.status == product_line.base_product_filter):
                     base_product_list.append(base_product.id)
-            if len(base_product_list)==0:
-                product_line.filtered_base_product_ids = False
-            else:
-                product_line.filtered_base_product_ids = base_product_list
+                if len(base_product_list) == 0:
+                    product_line.filtered_base_product_ids = False
+                else:
+                    product_line.filtered_base_product_ids = base_product_list
 
     def action_update_base_products(self):
         #Check for removed attribute types and values
