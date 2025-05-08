@@ -248,6 +248,9 @@ class ProductLine(models.Model):
                     case "exact":
                         if filter.filter_string.casefold() == attribute_pair.attribute_value_id.name.casefold():
                             included = True
+                    case "list":
+                        if attribute_pair.attribute_value_id.name.casefold() in filter.filter_string.casefold():
+                            included = True
                 break
         return included
     
