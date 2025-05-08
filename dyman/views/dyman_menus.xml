@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <menuitem id="dyman_root" name="Dynamic Manufacturing" action="dyman_product_line" web_icon="dyman_product_line,static/description/icon.png">
+    <menuitem id="dyman_root" name="Dynamic Manufacturing" action="dyman_product_line" web_icon="dyman,static/description/icon.png">
         <menuitem id="dyman_menu_orders" name="Orders" action="dyman_order"/>
         <menuitem id="dyman_menu_dealers" name="Dealers" action="dyman_dealer"/>
         <menuitem id="dyman_menu_schedule" name="Schedule" action="dyman_schedule"/>

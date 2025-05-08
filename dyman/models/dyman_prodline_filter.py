@@ -15,7 +15,7 @@ class ProductLineFilter(models.Model):
     application_method_limited = fields.Selection(selection=[('only', 'Only where'),('not', 'Not where')], string='How to apply filter')
     attribute_type_id = fields.Many2one("dyman.attribute.type", string="Attribute type", domain="[('id', 'in', valid_attribute_type_ids)]", required=True, ondelete="restrict")
     valid_attribute_type_ids = fields.One2many('dyman.attribute.type',string="Valid attribute types",compute="_load_valid_attribute_types")
-    filter_rule = fields.Selection(selection=[('in', 'Includes'), ('start', "Begins with"), ('exact', 'Exact match')], string='Rule', required=True)
+    filter_rule = fields.Selection(selection=[('in', 'Includes'), ('start', "Begins with"), ('exact', 'Exact match'), ('list', 'In (list)')], string='Rule', required=True)
     filter_string = fields.Char(string='Value', required=True)
     
     @api.depends('apply_to_filter_id','application_method','attribute_type_id','filter_rule','filter_string')
@@ -63,8 +63,13 @@ class ProductLineFilter(models.Model):
                 if self.application_method == 'not':
                     name = name + " does not equal "
                 else:
-                    name = name + " equals "                       
-        
+                    name = name + " equals "
+            case 'list':
+                if self.application_method == 'not':
+                    name = name + " is not in "
+                else:
+                    name = name + " is in "
+
         if self.filter_string:
             name = name + self.filter_string
         else:
