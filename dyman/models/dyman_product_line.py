@@ -1,5 +1,3 @@
-import logging
-
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
@@ -7,8 +5,6 @@ class ProductLine(models.Model):
     _name = "dyman.product.line"
     _description = "Dynamic product line"
     # A dynamic product line is a set of attributes and possible values, which can be used to define a dynamic product"
-
-    _logger = logging.getLogger(__name__)
 
     name = fields.Char(string='Name', required=True)
     description = fields.Text(string='Description')
@@ -25,7 +21,8 @@ class ProductLine(models.Model):
     process_ids = fields.One2many("dyman.process", "product_line_id", string="Manufacturing processes", domain=[('order_id','=',False)])
     available_to_dealers = fields.Selection(selection=[('all', 'All dealers'), ('most', 'Most dealers'), ('selected', 'Selected dealers')], string="Available to", default="all")
     dealer_restriction_ids = fields.One2many("dyman.prodline.dealer.restriction", "product_line_id", string="Restrict to dealers")
-
+    log = fields.Text(string="Log")
+    
     @api.depends("base_product_filter")
     def _filter_base_products(self):
         for product_line in self:
@@ -41,7 +38,7 @@ class ProductLine(models.Model):
 
     def action_update_base_products(self):
         #Check for removed attribute types and values
-        self._logger.info("Starting action_update_base_products")
+        self.log="Starting action_update_base_products \n"
         for base_product in self.env['dyman.base.product'].search([('status', '!=', 'Removed')]):
             for base_product_attribute in self.env['dyman.base.product.attribute'].search([('base_product_id', '=', base_product.id)]):
                 attribute_exists = False
@@ -57,7 +54,6 @@ class ProductLine(models.Model):
         #Check for new attribute types and values
 
         attributes = self.prodline_attrtype_ids.filtered("base").sorted("sequence")
-        self._logger.info("Attributes", attributes)
         base_prods = self._get_base_products(attributes, 0)
         base_prods = self._restrict_base_products(base_prods)
         base_prods = self._retain_existing_base_prods(base_prods)
@@ -84,7 +80,7 @@ class ProductLine(models.Model):
                  self.env['dyman.base.product'].create(vals)
 
     def _get_base_products(self, attributes, attr_num, old_list=None):
-        self._logger.info("Starting _get_base_products")
+        self.log+="Starting _get_base_products\n"
         if old_list is None:
             old_list = []
             old_product = []
@@ -112,7 +108,7 @@ class ProductLine(models.Model):
 
     def _restrict_base_products(self, old_list):
         
-        self._logger.info("Starting _restrict_base_products")
+        self.log+="Starting _restrict_base_products\n"
         new_list = []
         
         for product in old_list:
@@ -124,7 +120,7 @@ class ProductLine(models.Model):
 
     def _retain_existing_base_prods(self, new_list):
 
-        self._logger.info("Starting _retain_existing_base_prods")
+        self.log+="Starting _retain_existing_base_prods\n"
 
         for old_product in self.base_product_ids:
             # Make sure the old products have the full set of attributes

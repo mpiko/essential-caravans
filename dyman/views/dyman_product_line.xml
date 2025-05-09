@@ -17,6 +17,12 @@
                         <field name="available_to_dealers"/>
                     </group>
                     <notebook>
+                        <page string="Log">
+                            <group>
+                                <field name = "log"/>
+                            </group>
+                        </page>
+
                         <page string="Attributes">
                             <field name = "prodline_attrtype_ids">
                                 <list>
