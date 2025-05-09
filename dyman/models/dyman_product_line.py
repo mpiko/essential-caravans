@@ -37,8 +37,10 @@ class ProductLine(models.Model):
                     product_line.filtered_base_product_ids = base_product_list
 
     def action_update_base_products(self):
-        #Check for removed attribute types and values
+
         self.log="Starting action_update_base_products \n"
+
+        # Check for removed attribute types and values
         for base_product in self.env['dyman.base.product'].search([('status', '!=', 'Removed')]):
             for base_product_attribute in self.env['dyman.base.product.attribute'].search([('base_product_id', '=', base_product.id)]):
                 attribute_exists = False
@@ -54,6 +56,8 @@ class ProductLine(models.Model):
         #Check for new attribute types and values
 
         attributes = self.prodline_attrtype_ids.filtered("base").sorted("sequence")
+        for attribute in attributes:
+            self.log+="Attribute type " + attribute.name
         base_prods = self._get_base_products(attributes, 0)
         base_prods = self._restrict_base_products(base_prods)
         base_prods = self._retain_existing_base_prods(base_prods)
