@@ -56,8 +56,6 @@ class ProductLine(models.Model):
         #Check for new attribute types and values
 
         attributes = self.prodline_attrtype_ids.filtered("base").sorted("sequence")
-        for attribute in attributes:
-            self.log+="Attribute type " + attribute.name
         base_prods = self._get_base_products(attributes, 0)
         base_prods = self._restrict_base_products(base_prods)
         base_prods = self._retain_existing_base_prods(base_prods)
@@ -75,12 +73,14 @@ class ProductLine(models.Model):
                      attr_vals.append((0,0,vals))
 
                  name = _name_base_product(base_prod)
+
                  vals = {
                         'name': name,
                         'status': 'new',
                         'product_line_id': self.id,
                         'base_product_attribute_ids': attr_vals
                         }
+                 self.log += vals['name']
                  self.env['dyman.base.product'].create(vals)
 
     def _get_base_products(self, attributes, attr_num, old_list=None):
