@@ -41,6 +41,7 @@ class ProductLine(models.Model):
 
     def action_update_base_products(self):
         #Check for removed attribute types and values
+        print("Starting action_update_base_products")
         for base_product in self.env['dyman.base.product'].search([('status', '!=', 'Removed')]):
             for base_product_attribute in self.env['dyman.base.product.attribute'].search([('base_product_id', '=', base_product.id)]):
                 attribute_exists = False
@@ -56,6 +57,7 @@ class ProductLine(models.Model):
         #Check for new attribute types and values
 
         attributes = self.prodline_attrtype_ids.filtered("base").sorted("sequence")
+        print("Attributes", attributes)
         base_prods = self._get_base_products(attributes, 0)
         base_prods = self._restrict_base_products(base_prods)
         base_prods = self._retain_existing_base_prods(base_prods)
@@ -82,7 +84,7 @@ class ProductLine(models.Model):
                  self.env['dyman.base.product'].create(vals)
 
     def _get_base_products(self, attributes, attr_num, old_list=None):
-        
+        print("Starting _get_base_products")
         if old_list is None:
             old_list = []
             old_product = []
@@ -110,6 +112,7 @@ class ProductLine(models.Model):
 
     def _restrict_base_products(self, old_list):
         
+        print("Starting _restrict_base_products")
         new_list = []
         
         for product in old_list:
@@ -120,7 +123,9 @@ class ProductLine(models.Model):
         return new_list
 
     def _retain_existing_base_prods(self, new_list):
-        
+
+        print("Starting _retain_existing_base_prods")
+
         for old_product in self.base_product_ids:
             # Make sure the old products have the full set of attributes
             for attribute in self.prodline_attrtype_ids.filtered("base"):
