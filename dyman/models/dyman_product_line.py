@@ -57,9 +57,11 @@ class ProductLine(models.Model):
 
         attributes = self.prodline_attrtype_ids.filtered("base").sorted("sequence")
         base_prods = self._get_base_products(attributes, 0)
+        self.log+="Products after first pass:" + str(len(base_prods))
         base_prods = self._restrict_base_products(base_prods)
+        self.log += "Products after second pass:" + str(len(base_prods))
         base_prods = self._retain_existing_base_prods(base_prods)
-
+        self.log += "Products after third pass:" + str(len(base_prods))
         if base_prods:
              for base_prod in base_prods:
                  attr_vals = []
