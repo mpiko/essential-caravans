@@ -12,5 +12,16 @@
             </field>
         </record>
 
+           <record id="view_sku_prefix_list" model="ir.ui.view">
+            <field name="name">product_category.sku_prefix.list</field>
+            <field name="model">product.category</field>
+            <field name="inherit_id" ref="product.product_category_list_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='display_name']" position="after">
+                    <field name="sku_prefix" size="2"/>
+                </xpath>
+            </field>
+        </record>
+
     </data>
 </odoo>
