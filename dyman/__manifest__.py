@@ -1,7 +1,7 @@
 {
     'name' : 'Dynamic Manufacturing',
     'author' : 'Lincoln Eddy',
-    'version' : '18.0.0.1.2',
+    'version' : '18.0.0.1.4',
     'depends' : ['base', 'product', 'stock'],
     'data' : [
         'security/ir.model.access.csv',
@@ -23,7 +23,6 @@
         'views/dyman_schedule_order.xml',
         'views/dyman_schedule.xml',
         'views/dyman_component_category.xml',
-        'views/res_users.xml',
         'views/dyman_dealer.xml',
         'views/dyman_base_characteristic_update.xml',
         'views/dyman_menus.xml'

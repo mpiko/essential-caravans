@@ -10,6 +10,7 @@ class Dealer(models.Model):
     
     name = fields.Char(string='Name', related="partner_id.name")
     partner_id = fields.Many2one("res.partner", string="Dealer", required=True, ondelete="restrict")
+    user_access_ids = fields.One2many("dyman.dealer.user.access", "dealer_id", string="Users")
     available_product_line_ids = fields.One2many("dyman.product.line", string="Available product lines", compute="_load_available_product_lines")
     available_base_product_ids = fields.One2many("dyman.base.product", string="Available base products", compute="_load_available_base_products")
 

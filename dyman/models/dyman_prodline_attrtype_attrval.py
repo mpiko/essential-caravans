@@ -16,3 +16,21 @@ class ProductLineAttributeTypeAttributeValue(models.Model):
     price_trade = fields.Float('Trade price')
     price_retail = fields.Float('Retail price')
     dealer_restriction_ids = fields.One2many("dyman.attribute.dealer.restriction", "prodline_attrtype_attrval_id", string="Restrict to dealers")
+    derived_from_ids = fields.Many2many("dyman.attribute.value", string="Derived from", domain="[('id', 'in', valid_derived_from_ids)]")
+    valid_derived_from_ids = fields.One2many("dyman.attribute.value", string="Valid attributes", compute="_load_valid_derived_from_ids")
+
+    @api.depends('prodline_attrtype_id', 'derived_from_ids')
+    def _load_valid_derived_from_ids(self):
+        for record in self:
+            ids = []
+            if record.prodline_attrtype_id.derived_from_id:
+                ids = record.prodline_attrtype_id.derived_from_id.prodline_attrtype_attrval_ids.mapped('attribute_value_id.id')
+                for id in ids:
+                    for derived_from in record.prodline_attrtype_id.prodline_attrtype_attrval_ids.derived_from_ids:
+                        if derived_from.id == id:
+                            ids.remove(id)
+                            break
+            if len(ids) == 0:
+                record.valid_derived_from_ids = False
+            else:
+                record.valid_derived_from_ids = ids

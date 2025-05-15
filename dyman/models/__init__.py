@@ -29,7 +29,6 @@ from . import dyman_schedule_date
 from . import dyman_component_category
 from . import dyman_prodline_component_material
 from . import dyman_dealer
-from . import res_users
 from . import dyman_build_year
 from . import dyman_build_month
 from . import dyman_production_allocation
@@ -38,3 +37,4 @@ from . import dyman_prodline_dealer_restriction
 from . import dyman_attribute_dealer_restriction
 from . import dyman_base_characteristic_update
 from . import dyman_base_characteristic_update_log
+from . import dyman_dealer_user_access

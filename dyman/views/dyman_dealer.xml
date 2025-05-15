@@ -6,15 +6,55 @@
         <field name="arch" type="xml">
             <list>
                 <field name="name"/>
+                <field name="user_access_ids"/>
                 <field name="available_product_line_ids" widget="many2many_tags"/>
                 <field name="available_base_product_ids"/>
             </list>
         </field>
     </record>
 
+    <record id="dyman_dealer_form" model="ir.ui.view">
+        <field name="name">dyman.dealer.form</field>
+        <field name="model">dyman.dealer</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <sheet>
+                        <field name="name"/>
+                        <notebook>
+                            <page string="Users">
+                                <field name="user_access_ids">
+                                        <list>
+                                            <field name="user_id"/>
+                                            <field name="can_submit"/>
+                                            <field name="can_sign"/>
+                                        </list>
+                                </field>
+                            </page>
+                            <page string="Product lines">
+                                <field name="available_product_line_ids">
+                                    <list>
+                                        <field name="name"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Base products">
+                                <field name="available_base_product_ids">
+                                    <list>
+                                        <field name="name"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </group>
+            </form>
+        </field>
+    </record>
+
     <record id="dyman_dealer" model="ir.actions.act_window">
         <field name="name">Dealer</field>
         <field name="res_model">dyman.dealer</field>
-        <field name="view_mode">list</field>
+        <field name="view_mode">list,form</field>
     </record>
 </odoo>
