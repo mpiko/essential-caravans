@@ -53,11 +53,10 @@ class ProductLine(models.Model):
                 if not attribute_exists:
                     base_product.Remove()
 
-        #Check for new attribute types and values
-
         attributes = self.prodline_attrtype_ids.filtered("base").sorted("sequence")
         base_prods = self._get_base_products(attributes, 0)
         self.log+="Products after first pass:" + str(len(base_prods))
+        base_prods = self._add_derived_attributes_to_base_products(base_prods)
         base_prods = self._restrict_base_products(base_prods)
         self.log += "Products after second pass:" + str(len(base_prods))
         base_prods = self._retain_existing_base_prods(base_prods)
@@ -70,7 +69,8 @@ class ProductLine(models.Model):
                              'base_product_id': self.id,
                              'attribute_type_id': attr_val.attribute_type_id.id,
                              'attribute_value_id': attr_val.attribute_value_id.id,
-                             'base': True
+                             'base': attr_val.base,
+                             'characteristic': attr_val.characteristic
                              }
                      attr_vals.append((0,0,vals))
 
@@ -103,7 +103,7 @@ class ProductLine(models.Model):
                     for old_val in old_product:
                         new_product.append(old_val)
                     
-                    new_product.append(AttributePair(attr_val.prodline_attrtype_id.attribute_type_id,attr_val.attribute_value_id))
+                    new_product.append(AttributePair(attr_val.prodline_attrtype_id.attribute_type_id,attr_val.attribute_value_id, True, False))
 
                     new_list.append(new_product)
 
@@ -111,6 +111,18 @@ class ProductLine(models.Model):
                 new_list = self._get_base_products(attributes, attr_num+1, new_list)
         
         return new_list
+
+    def _add_derived_attributes_to_base_products(self, list):
+
+        for product in list:
+            for attribute_type in self.prodline_attrtype_ids.filtered(lambda r: r.derived_from_id and r.characteristic):
+                for attribute_value in attribute_type.prodline_attrtype_attrval_ids:
+                    if len([pair for pair in product if pair.attribute_type_id == attribute_type.derived_from_id.attribute_type_id and pair.attribute_value_id in attribute_value.derived_from_ids]) > 0:
+                        product.append(
+                            AttributePair(attribute_type.attribute_type_id, attribute_value.attribute_value_id,
+                                          False, True))
+
+        return list
 
     def _restrict_base_products(self, old_list):
         
@@ -129,7 +141,7 @@ class ProductLine(models.Model):
         self.log+="Starting _retain_existing_base_prods\n"
 
         for old_product in self.base_product_ids:
-            # Make sure the old products have the full set of attributes
+            # Make sure the old products have the full set of base attributes
             for attribute in self.prodline_attrtype_ids.filtered("base"):
                 match = False
                 for old_attr in old_product.base_product_attribute_ids:
@@ -152,6 +164,23 @@ class ProductLine(models.Model):
                     if match:
                         break
             if match:
+                #Refresh the characteristics
+                for new_attr in new_product:
+                    if new_attr.characteristic:
+                        match = False
+                        for old_attr in old_product.base_product_attribute_ids:
+                            if ((old_attr.attribute_type_id == new_attr.attribute_type_id) and (old_attr.attribute_value_id == new_attr.attribute_value_id)):
+                                match = True
+                                break
+                        if not match:
+                            vals = {
+                                'base_product_id': old_product.id,
+                                'attribute_type_id': new_attr.attribute_type_id.id,
+                                'attribute_value_id': new_attr.attribute_value_id.id,
+                                'base': new_attr.base,
+                                'characteristic': new_attr.characteristic
+                                }
+                            old_product.write({'base_product_attribute_ids': [(0,0,vals)]})
                 old_product.name = _name_base_product(new_product)
                 new_list.remove(new_product)
             else:
@@ -273,11 +302,14 @@ def _name_base_product(product):
 
     name = ""
     for attr_val in product:
-        name = name + " " + attr_val.attribute_value_id.name
+        if attr_val.base:
+            name = name + " " + attr_val.attribute_value_id.name
     
     return name.lstrip()
 
 class AttributePair():
-    def __init__(self, attribute_type, attribute_value):
+    def __init__(self, attribute_type, attribute_value, base, characteristic):
         self.attribute_type_id = attribute_type
         self.attribute_value_id = attribute_value
+        self.base = base
+        self.characteristic = characteristic

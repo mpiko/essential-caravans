@@ -31,8 +31,6 @@ class Order(models.Model):
     process_operation_ids = fields.One2many(string="Operations", related="build_process_id.process_operation_ids")
     schedule_date_online = fields.Date(string="Scheduled on-line date")
     
-
-
     @api.depends("dealer_id", "product_line_id", "order_attribute_ids")
     def _load_available_base_products(self):
         for order in self:

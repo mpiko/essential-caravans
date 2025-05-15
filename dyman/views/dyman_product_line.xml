@@ -17,7 +17,7 @@
                         <field name="available_to_dealers"/>
                     </group>
                     <notebook>
-                        <page string="Log">
+                        <page string="Log" invisible='1'>
                             <group>
                                 <field name = "log"/>
                             </group>
@@ -32,6 +32,7 @@
                                     <field name="base"/>
                                     <field name="required"/>
                                     <field name="characteristic"/>
+                                    <field name="filter_id"/>
                                 </list>
                                 <form>
                                     <group>
@@ -39,11 +40,14 @@
                                         <field name="base"/>
                                         <field name="required"/>
                                         <field name="characteristic"/>
+                                        <field name="valid_derived_from_ids" invisible="1"/>
+                                        <field name="derived_from_id"/>
                                         <field name="prodline_attrtype_attrval_ids">
                                             <list>
                                                 <field name="attribute_value_id"/>
                                                 <field name="price_rule"/>
                                                 <field name="filter_id"/>
+                                                <field name="derived_from_ids" widget="many2many_tags"/>
                                                 <field name="available_to_dealers"/>
                                                 <field name="prodline_component_rule_ids"/>
                                             </list>
@@ -53,6 +57,8 @@
                                                     <field name="price_rule"/>
                                                     <field name="price_trade" widget="monetary" invisible="price_rule != 'fixed'"/>
                                                     <field name="price_retail" widget="monetary" invisible="price_rule != 'fixed'"/>
+                                                    <field name="valid_derived_from_ids" invisible="1"/>
+                                                    <field name="derived_from_ids" widget="many2many_tags"/>
                                                     <field name="filter_id"/>
                                                     <field name="available_to_dealers"/>
                                                     <label string="Not available to"
