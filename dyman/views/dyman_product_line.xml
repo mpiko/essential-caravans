@@ -147,10 +147,6 @@
                             </field>                            
                         </page>
                         <page string="Base Products">
-                            <group>
-                                <field name="base_product_filter" widget="radio" options="{'horizontal': true}" invisible="1"/>
-                                <field name="filtered_base_product_ids" invisible="1"/>
-                            </group>
                             <field name = "base_product_ids">
                                 <list>
                                     <field name="name"/>
@@ -170,8 +166,7 @@
                                             <list>
                                                 <field name="attribute_type_id"/>
                                                 <field name="attribute_value_id"/>
-                                                <field name="base"/>
-                                                <field name="characteristic"/>
+                                                <field name="source"/>
                                             </list>
                                         </field>
                                         <field name="base_material_ids">

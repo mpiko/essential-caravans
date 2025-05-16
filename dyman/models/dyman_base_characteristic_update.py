@@ -15,6 +15,7 @@ class BaseCharacteristicUpdate(models.Model):
     include_where = fields.Char(string="Include where")
     only_where = fields.Char(string="Only where")
     not_where = fields.Char(string="Not where")
+    source = fields.Selection(selection=[('characteristic', 'Characteristic'), ('default', 'Default')], string="Source")
     base_characteristic_update_log_ids = fields.One2many("dyman.base.characteristic.update.log", "base_characteristic_update_id", string="Updates")
     last_applied = fields.Datetime(string="Last applied")
 
@@ -22,7 +23,7 @@ class BaseCharacteristicUpdate(models.Model):
     def _load_valid_attributes(self):
         for record in self:
             attribute_list = []
-            for prodline_attribute_type in record.product_line_id.prodline_attrtype_ids.filtered("characteristic"):
+            for prodline_attribute_type in record.product_line_id.prodline_attrtype_ids.filtered(lambda r: not r.base):
                 attribute_list.append(prodline_attribute_type.attribute_type_id.id)
             record.valid_attribute_type_ids = attribute_list
 
@@ -34,6 +35,8 @@ class BaseCharacteristicUpdate(models.Model):
                 prodline_attribute_types = self.product_line_id.prodline_attrtype_ids.search([('attribute_type_id', '=', record.attribute_type_id.id)])
                 if len(prodline_attribute_types) != 1:
                     raise ValidationError("Product line should have exactly one attribute of type " + record.attribute_type_id.name)
+
+                self.source = "characteristic" if prodline_attribute_types[0].characteristic else "default"
 
                 for value in prodline_attribute_types[0].prodline_attrtype_attrval_ids:
                     value_list.append(value.attribute_value_id.id)
@@ -83,8 +86,7 @@ class BaseCharacteristicUpdate(models.Model):
                     'base_product_id': base_prod.id,
                     'attribute_type_id': self.attribute_type_id.id,
                     'attribute_value_id': self.attribute_value_id.id,
-                    'base': False,
-                    'characteristic': True
+                    'source': self.source
                     }
             self.env['dyman.base.product.attribute'].create(vals)
 
