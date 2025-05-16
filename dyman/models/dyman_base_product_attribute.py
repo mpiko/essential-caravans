@@ -7,5 +7,4 @@ class BaseProductAttribute(models.Model):
     base_product_id = fields.Many2one("dyman.base.product", string="Base product", ondelete='cascade')
     attribute_type_id = fields.Many2one("dyman.attribute.type", string="Attribute type", ondelete='cascade')
     attribute_value_id = fields.Many2one("dyman.attribute.value", string="Attribute value", ondelete='cascade')
-    base = fields.Boolean(string="Base?")
-    characteristic = fields.Boolean(string="Characteristic?")
+    source = fields.Selection(selection=[('base', 'Base'),('characteristic', 'Characteristic'),('default', 'Default')], string="Source")

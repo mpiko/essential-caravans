@@ -1,7 +1,7 @@
 {
     'name' : 'Dynamic Manufacturing',
     'author' : 'Lincoln Eddy',
-    'version' : '18.0.0.1.4',
+    'version' : '18.0.0.1.5',
     'depends' : ['base', 'product', 'stock'],
     'data' : [
         'security/ir.model.access.csv',
