@@ -9,7 +9,8 @@
             <xpath expr="//header/button" position="after">
                 <button string="Add SKU" type="object" name="update_sku"
                     invisible="default_code or sku_added or not categ_id or not sku_prefix or company_id"
-                    groups="product.group_product_manager"/>
+                    groups="product.group_product_manager"
+                    class="btn-success px-2"/>
             </xpath>
             <xpath expr="//label[@for='name']" position="before">
                 <h1>
