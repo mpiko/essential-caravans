@@ -7,6 +7,7 @@ class ProductTemplate(models.Model):
     trade_price = fields.Float('Trade price')
     nla = fields.Boolean('No longer available')
     sku_prefix = fields.Char(string="SKU Prefix", related="categ_id.sku_prefix")
+    sku = fields.Char(string="SKU")
     sku_added = fields.Boolean('SKU added')
 
     def update_sku(self):
@@ -19,6 +20,6 @@ class ProductTemplate(models.Model):
         if not self.categ_id.sku_prefix:
             raise ValidationError("Product must be assigned to a category")
 
-        self.barcode = self.categ_id.sku_prefix + str(self.id)
+        self.sku = self.categ_id.sku_prefix + str(self.id)
         self.sku_added = True
 
