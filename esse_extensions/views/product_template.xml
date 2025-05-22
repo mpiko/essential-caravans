@@ -8,15 +8,15 @@
         <field name="arch" type="xml">
             <xpath expr="//header/button" position="after">
                 <button string="Add SKU" type="object" name="update_sku"
-                    invisible="default_code or sku_added or not categ_id or not sku_prefix or company_id"
+                    invisible="barcode or sku_added or not categ_id or not sku_prefix or company_id"
                     groups="product.group_product_manager"
                     class="btn-success px-2"/>
             </xpath>
             <xpath expr="//label[@for='name']" position="before">
                 <h1>
                     <field name="sku_added" invisible="1"/>
-                    <label for="default_code" string = "SKU"/>
-                    <field name="default_code" widget="char" readonly="1"/>
+                    <label for="barcode" string = "SKU"/>
+                    <field name="barcode" widget="char" readonly="1"/>
                 </h1>
             </xpath>
             <xpath expr="//div[@name='options']" position="inside">
@@ -31,7 +31,7 @@
                     <field name="trade_price" class="oe_inline" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                 </div>
             </xpath>
-            <xpath expr="//group[@name='group_standard_price']/field[@name='default_code']" position="attributes">
+            <xpath expr="//group[@name='group_standard_price']/field[@name='barcode']" position="attributes">
                 <attribute name="readonly">sku_added</attribute>
             </xpath>
         </field>

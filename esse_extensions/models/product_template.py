@@ -13,15 +13,12 @@ class ProductTemplate(models.Model):
         if self.company_id:
             raise ValidationError("This product belongs to " + company_id.name + ". We are only doing SKUs for universal products.")
 
-        if self.default_code:
-            raise ValidationError("SKU field must be blank")
-
         if not self.categ_id:
             raise ValidationError("Category must have a prefix set")
 
         if not self.categ_id.sku_prefix:
             raise ValidationError("Product must be assigned to a category")
 
-        self.default_code = self.categ_id.sku_prefix + str(self.id)
+        self.barcode = self.categ_id.sku_prefix + str(self.id)
         self.sku_added = True
 
