@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
     <record id="view_product_template_inherit_esse" model="ir.ui.view">
         <field name="name">product.template.esse.form</field>
         <field name="model">product.template</field>
         <field name="inherit_id" ref="product.product_template_only_form_view"/>
         <field name="arch" type="xml">
+            <xpath expr="//header/button" position="after">
+                <button string="Add SKU" type="object" name="update_sku"
+                    invisible="sku or sku_added or not categ_id or not sku_prefix or company_id"
+                    groups="product.group_product_manager"
+                    class="btn-success px-2"/>
+            </xpath>
             <xpath expr="//label[@for='name']" position="before">
                 <h1>
-                    <label for="id" string = "SKU"/>
-                    <field name="id" widget="char"/>
+                    <field name="sku_added" invisible="1"/>
+                    <label for="sku"/>
+                    <field name="sku" widget="char" readonly="1"/>
                 </h1>
             </xpath>
             <xpath expr="//div[@name='options']" position="inside">
@@ -22,8 +28,34 @@
                 <label for="trade_price"/>
                 <div name="trade price" class="o_row">
                     <field name="trade_price" class="oe_inline" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
-                </div></xpath>
+                </div>
+            </xpath>
+
         </field>
     </record>
 
+    <record id="view_product_purchase_template_inherit_esse" model="ir.ui.view">
+        <field name="name">product.purchase.template.esse.list</field>
+        <field name="model">product.supplierinfo</field>
+        <field name="inherit_id" ref="product.product_supplierinfo_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_code']" position="replace">
+                <field name="product_code" optional="show"/>
+            </xpath>
+            <xpath expr="//field[@name='product_name']" position="replace">
+                <field name="product_name" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_product_template_search_inherit_esse" model="ir.ui.view">
+        <field name="name">product.template.esse.search</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_search_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <field name="sku" string="SKU"/>
+            </xpath>
+        </field>
+    </record>
 </odoo>

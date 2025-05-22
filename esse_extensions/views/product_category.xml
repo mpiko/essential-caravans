@@ -12,7 +12,7 @@
             </field>
         </record>
 
-           <record id="view_sku_prefix_list" model="ir.ui.view">
+        <record id="view_sku_prefix_list" model="ir.ui.view">
             <field name="name">product_category.sku_prefix.list</field>
             <field name="model">product.category</field>
             <field name="inherit_id" ref="product.product_category_list_view"/>
