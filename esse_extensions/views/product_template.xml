@@ -6,16 +6,19 @@
         <field name="inherit_id" ref="product.product_template_only_form_view"/>
         <field name="arch" type="xml">
             <xpath expr="//header/button" position="after">
+                <field name="sku_added" invisible="1"/>
                 <button string="Add SKU" type="object" name="update_sku"
-                    invisible="sku or sku_added or not categ_id or not sku_prefix or company_id"
+                    invisible="default_code or sku_added or not categ_id or not sku_prefix"
                     groups="product.group_product_manager"
                     class="btn-success px-2"/>
             </xpath>
             <xpath expr="//label[@for='name']" position="before">
+                <h3>
+
+                    SKU
+                </h3>
                 <h1>
-                    <field name="sku_added" invisible="1"/>
-                    <label for="sku"/>
-                    <field name="sku" widget="char" readonly="1"/>
+                    <field name="default_code" widget="char" readonly="1"/>
                 </h1>
             </xpath>
             <xpath expr="//div[@name='options']" position="inside">
