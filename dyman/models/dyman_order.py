@@ -16,7 +16,7 @@ class Order(models.Model):
     customer_phone = fields.Char(string="Mobile")
     customer_email = fields.Char(string="email")
     order_status = fields.Selection(selection=[('draft', 'Draft/Incomplete'),('returned', 'Returned'),('submitted', 'Submitted'),('accepted', 'Accepted'),('signed', 'Signed off'),('cancelled', 'Cancelled')], string="Order status", default='draft')
-    build_month = fields.Many2one("dyman.build.month", string = "Build month", ondelete="restrict")
+    build_month_id = fields.Many2one("dyman.build.month", string = "Build month", ondelete="restrict")
     order_attribute_ids = fields.One2many("dyman.order.attribute", "order_id", string="Attributes")
     available_base_product_ids = fields.One2many("dyman.base.product", string="Available base products", compute="_load_available_base_products")
     valid_attrtype_ids = fields.One2many('dyman.attribute.type',string="Valid attribute types", compute="_load_valid_attrtypes")

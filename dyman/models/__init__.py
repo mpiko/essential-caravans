@@ -37,4 +37,5 @@ from . import dyman_prodline_dealer_restriction
 from . import dyman_attribute_dealer_restriction
 from . import dyman_base_characteristic_update
 from . import dyman_base_characteristic_update_log
+from . import res_users
 from . import dyman_dealer_user_access
