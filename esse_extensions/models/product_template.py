@@ -8,7 +8,7 @@ class ProductTemplate(models.Model):
     nla = fields.Boolean('No longer available')
     sku_prefix = fields.Char(string="SKU Prefix", related="categ_id.sku_prefix")
     sku = fields.Char(string="SKU")
-    sku_added = fields.Boolean('SKU added')
+    sku_added = fields.Boolean('SKU added', copy=False)
 
     def update_sku(self):
         if not self.categ_id:
