@@ -31,7 +31,7 @@ class Dealer(models.Model):
             if len(product_lines) == 0:
                 product_lines = False
 
-            dealer.available_product_line_ids = product_lines
+            dealer.available_product_line_ids   = product_lines
 
     @api.depends("partner_id")
     def _load_available_base_products(self):
@@ -68,20 +68,3 @@ class Dealer(models.Model):
                 base_products = False
 
             dealer.available_base_product_ids = base_products
-
-    def available_months(self):
-        months = []
-        open_months = self.env['dyman.build.month'].filtered(lambda r: r.status == "open")
-        for month in open_months:
-            allocations = self.env['dyman.production.allocation'].search([('dealer_id', '=', self.id), ('build_month_id', '=', month.id)])
-            if len(allocations) == 0:
-                allocation = 0
-            elif len(allocations) > 1:
-                raise ValidationError(self.name + " has more than 1 production allocation for " month.name)
-            else:
-                allocation = allocations[0].slots
-
-            if len(self.env['dyman.order'].search([('dealer_id', '=', self.id), ('build_month_id', '=', month.id)])) < allocation:
-                months.append(month)
-
-        return months

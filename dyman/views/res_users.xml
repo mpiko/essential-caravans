@@ -7,7 +7,7 @@
         <field name="inherit_id" ref="base.view_users_form"/>
         <field name="arch" type="xml">
             <field name="company_id" position="after">
-                <field name="dyman_dealer_user_access_ids"/>
+                <field name="dyman_dealer_id"/>
             </field>
         </field>
     </record>

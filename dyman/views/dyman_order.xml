@@ -21,7 +21,7 @@
                         <field name="customer_phone" invisible="order_type == 'stock'"/>
                         <field name="customer_email" invisible="order_type == 'stock'"/>
                         <field name="order_status"/>
-                        <field name="build_month_id"/>
+                        <field name="build_month"/>
                         <field name="available_base_product_ids"/>
                     </group>
                     <notebook>
