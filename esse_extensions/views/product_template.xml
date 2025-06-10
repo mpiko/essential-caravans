@@ -42,8 +42,19 @@
         <field name="model">product.supplierinfo</field>
         <field name="inherit_id" ref="product.product_supplierinfo_tree_view"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='product_code']" position="replace">
-                <field name="product_code" optional="show"/>
+            <xpath expr="//field[@name='product_code']" position="attributes">
+                <attribute name="optional">show</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_product_purchase_template_inherit_esse2" model="ir.ui.view">
+        <field name="name">product.purchase.template.esse.list2</field>
+        <field name="model">product.supplierinfo</field>
+        <field name="inherit_id" ref="purchase.product_supplierinfo_tree_view2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='company_id']" position="attributes">
+                <attribute name="optional">show</attribute>
             </xpath>
         </field>
     </record>
