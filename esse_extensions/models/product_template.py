@@ -20,3 +20,8 @@ class ProductTemplate(models.Model):
         self.default_code = self.categ_id.sku_prefix + str(self.id)
         self.sku_added = True
 
+        # Cyder - on Andrew's request:
+        if not self.barcode:
+           self.barcode = self.categ_id.sku_prefix + str(self.id)
+
+
